@@ -1,4 +1,4 @@
-## Exercies
+## Exercises
 
 ### Chapter 2
 
