@@ -13,5 +13,10 @@ spec:
         app: todo-app
     spec:
       containers:
-        - name: log-output
-          image: juhanikat/todo-app:b
+      - name: todo-app
+        image: juhanikat/todo-app:d
+        env:
+        - name: PORT
+          value: "3000"
+
+

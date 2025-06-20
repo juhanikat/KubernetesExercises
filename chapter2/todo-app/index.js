@@ -1,12 +1,12 @@
-import http from "http";
+import express from "express";
 
-const PORT = process.env.PORT || 3000
+const app = express()
+const PORT = process.env.PORT
 
-const server = http.createServer((req, res) => {
-    res.writeHead(200, { 'Content-Type': 'text/plain' });
-    res.end("Hello world!")
-});
+app.get("/", (req, res) => {
+    res.send("Hello world!")
+})
 
-server.listen(PORT, 'localhost', () => {
+app.listen(PORT, () => {
     console.log(`Server started in port ${PORT}`);
 }); 
