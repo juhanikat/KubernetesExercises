@@ -8,3 +8,4 @@
 - [1.4](https://github.com/juhanikat/KubernetesExercises/tree/1.4/chapter2/todo-app)
 - [1.5](https://github.com/juhanikat/KubernetesExercises/tree/1.5/chapter2/todo-app)
 - [1.6](https://github.com/juhanikat/KubernetesExercises/tree/1.6/chapter2/todo-app)
+- [1.7](https://github.com/juhanikat/KubernetesExercises/tree/1.7/chapter2/log-output)
