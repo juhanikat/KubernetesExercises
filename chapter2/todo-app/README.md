@@ -1,1 +1,1 @@
-1. Deploy with `kubectl apply -f manifests/deployment.yaml` and `kubectl apply -f manifests/service.yaml`.
+1. Deploy with `kubectl apply -f manifests`.
