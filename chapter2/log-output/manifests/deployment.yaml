@@ -12,9 +12,23 @@ spec:
       labels:
         app: log-output
     spec:
+      volumes:
+      - name: shared-string
+        emptyDir: {}
       containers:
-      - name: log-output
-        image: juhanikat/log-output:e
+      - name: string-generator
+        image: juhanikat/log-output-string-generator:c
+        volumeMounts:
+        - name: shared-string
+          mountPath: /usr/src/app/files
         env:
         - name: PORT
           value: "3000"
+      - name: string-responder
+        image: juhanikat/log-output-string-responder:d
+        volumeMounts:
+        - name: shared-string
+          mountPath: /usr/src/app/files
+        env:
+        - name: PORT
+          value: "3001"
