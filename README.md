@@ -10,3 +10,4 @@
 - [1.6](https://github.com/juhanikat/KubernetesExercises/tree/1.6/chapter2/todo-app)
 - [1.7](https://github.com/juhanikat/KubernetesExercises/tree/1.7/chapter2/log-output)
 - [1.8](https://github.com/juhanikat/KubernetesExercises/tree/1.8/chapter2/todo-app)
+- [1.9](https://github.com/juhanikat/KubernetesExercises/tree/1.9/chapter2/ping-pong-app)

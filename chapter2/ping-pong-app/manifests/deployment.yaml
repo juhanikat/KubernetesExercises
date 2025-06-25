@@ -1,20 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: log-output-dep
+  name: ping-pong-app-dep
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: log-output
+      app: ping-pong-app
   template:
     metadata:
       labels:
-        app: log-output
+        app: ping-pong-app
     spec:
       containers:
-      - name: log-output
-        image: juhanikat/log-output:e
+      - name: ping-pong-app
+        image: juhanikat/ping-pong-app:d
         env:
         - name: PORT
-          value: "3000"
+          value: "3001"
