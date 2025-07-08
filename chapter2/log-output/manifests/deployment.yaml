@@ -12,22 +12,25 @@ spec:
       labels:
         app: log-output
     spec:
+      securityContext:
+        runAsUser: 0 # set to use root permissions to be able to write files
       volumes:
-      - name: shared-string
-        emptyDir: {}
+      - name: shared-pingpong-amount
+        persistentVolumeClaim:
+          claimName: ping-pong-amount-pvclaim
       containers:
       - name: string-generator
-        image: juhanikat/log-output-string-generator:c
+        image: juhanikat/log-output-string-generator:j
         volumeMounts:
-        - name: shared-string
+        - name: shared-pingpong-amount
           mountPath: /usr/src/app/files
         env:
         - name: PORT
           value: "3000"
       - name: string-responder
-        image: juhanikat/log-output-string-responder:d
+        image: juhanikat/log-output-string-responder:e
         volumeMounts:
-        - name: shared-string
+        - name: shared-pingpong-amount
           mountPath: /usr/src/app/files
         env:
         - name: PORT

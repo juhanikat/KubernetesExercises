@@ -5,7 +5,8 @@ import path from "path"
 const app = express()
 const PORT = process.env.PORT
 
-const filepath = path.join('/', 'usr', 'src', 'app', 'files', 'randomstring.txt')
+const pingpongAmountPath = path.join('/', 'usr', 'src', "app", "files", 'pingpongpamount.txt')
+const randomStringPath = path.join('/', 'usr', 'src', 'app', 'files', 'randomstring.txt')
 
 let randomString = ""
 for (let i = 0; i < 10; i++) {
@@ -13,11 +14,17 @@ for (let i = 0; i < 10; i++) {
 }
 
 const getString = () => {
-    return `${new Date()}:${randomString}`
+    let pingpongAmount = undefined
+    try {
+        pingpongAmount = Number(fs.readFileSync(pingpongAmountPath, { encoding: "utf8" }))
+    } catch (error) {
+        console.log(error)
+    }
+    return `${new Date()}:${randomString}\nPing / Pongs: ${pingpongAmount}`
 }
 
 const writeString = () => {
-    fs.writeFile(filepath, getString(), err => {
+    fs.writeFile(randomStringPath, getString(), err => {
         if (err) console.log(err)
     })
     setTimeout(writeString, 5000)
