@@ -12,9 +12,18 @@ spec:
       labels:
         app: todo-app
     spec:
+      securityContext:
+        runAsUser: 0 # set to use root permissions to be able to write files
+      volumes:
+      - name: random-image
+        persistentVolumeClaim:
+          claimName: random-image-pvclaim
       containers:
       - name: todo-app
-        image: juhanikat/todo-app:d
+        image: juhanikat/todo-app:l
+        volumeMounts:
+        - name: random-image
+          mountPath: /usr/src/app/files
         env:
         - name: PORT
           value: "3000"

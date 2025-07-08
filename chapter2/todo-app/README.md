@@ -1,1 +1,1 @@
-1. Deploy with `kubectl apply -f manifests`.
+1. Deploy with `kubectl apply -f manifests` and `kubectl apply -f volumes`.
