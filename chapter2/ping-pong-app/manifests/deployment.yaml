@@ -14,16 +14,16 @@ spec:
     spec:
       securityContext:
         runAsUser: 0 # set to use root permissions to be able to write files
-      volumes:
-      - name: shared-pingpong-amount
-        persistentVolumeClaim:
-          claimName: ping-pong-amount-pvclaim
+      #volumes:
+      #- name: shared-pingpong-amount
+      #  persistentVolumeClaim:
+      #    claimName: ping-pong-amount-pvclaim
       containers:
       - name: ping-pong-app
-        image: juhanikat/ping-pong-app:l
-        volumeMounts:
-          - name: shared-pingpong-amount
-            mountPath: /usr/src/app/files
+        image: juhanikat/ping-pong-app:s
+        #volumeMounts:
+        #  - name: shared-pingpong-amount
+        #    mountPath: /usr/src/app/files
         env:
         - name: PORT
           value: "3001"

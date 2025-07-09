@@ -15,3 +15,4 @@
 - [1.11](https://github.com/juhanikat/KubernetesExercises/tree/1.11/chapter2)
 - [1.12](https://github.com/juhanikat/KubernetesExercises/tree/1.12/chapter2/todo-app)
 - [1.13](https://github.com/juhanikat/KubernetesExercises/tree/1.13/chapter2/todo-app)
+- [1.14](https://github.com/juhanikat/KubernetesExercises/tree/1.14/chapter2/ping-pong-app)

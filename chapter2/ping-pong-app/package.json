@@ -12,5 +12,8 @@
   },
   "dependencies": {
     "express": "^5.1.0"
+  },
+  "devDependencies": {
+    "eslint": "^9.30.1"
   }
 }

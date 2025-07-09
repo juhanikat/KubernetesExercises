@@ -1,30 +1,44 @@
-import express from "express";
-import fs from "fs";
-import path from "path";
-
+import express from "express"
+import fs from "fs"
+import path from "path"
 
 const app = express()
 const PORT = process.env.PORT
 
-const amountFilePath = path.join('/', 'usr', 'src', "app", "files", 'pingpongpamount.txt')
+const amountFileDir = path.join("/", "usr", "src", "app", "files")
 
-app.get("/pingpong", (req, res) => {
-    let counter
-    if (!(fs.existsSync(amountFilePath))) {
-        counter = 0
-    } else {
-        counter = Number(fs.readFileSync(amountFilePath, "utf8"))
-    }
+const amountFilePath = path.join(
+  "/",
+  "usr",
+  "src",
+  "app",
+  "files",
+  "pingpongpamount.txt"
+)
 
-    counter = counter + 1
+let pings
+if (!fs.existsSync(amountFileDir) || !fs.existsSync(amountFilePath)) {
+  pings = 0
+} else {
+  pings = Number(fs.readFileSync(amountFilePath, "utf8"))
+}
 
-    const message = `pong ${counter}`
-    fs.writeFileSync(amountFilePath, String(counter), err => {
-        if (err) console.log(err)
+app.get("/pingpong", async (req, res) => {
+  pings = pings + 1
+  const message = `pong ${pings}`
+  if (fs.existsSync(amountFileDir) && fs.existsSync(amountFilePath)) {
+    fs.writeFileSync(amountFilePath, String(counter), (err) => {
+      if (err) console.log(err)
     })
-    res.send(message)
+  }
+  res.send(message)
+})
+
+app.get("/pings", (req, res) => {
+  console.log(pings)
+  res.json({ pings: pings })
 })
 
 app.listen(PORT, () => {
-    console.log(`Server started in port ${PORT}`);
-}); 
+  console.log(`Server started in port ${PORT}`)
+})
