@@ -20,7 +20,7 @@ spec:
           claimName: random-image-pvclaim
       containers:
       - name: todo-app
-        image: juhanikat/todo-app:l
+        image: juhanikat/todo-app:q
         volumeMounts:
         - name: random-image
           mountPath: /usr/src/app/files
