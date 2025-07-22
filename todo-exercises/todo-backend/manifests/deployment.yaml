@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: todo-backend-dep
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: todo-backend
+  template:
+    metadata:
+      labels:
+        app: todo-backend
+    spec:
+      securityContext:
+        runAsUser: 0 # set to use root permissions to be able to write files
+      containers:
+      - name: todo-backend
+        image: juhanikat/todo-backend:g
+        env:
+        - name: PORT
+          value: "3001"
+
+

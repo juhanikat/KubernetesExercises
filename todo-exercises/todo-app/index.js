@@ -1,12 +1,12 @@
-import { Buffer } from "buffer";
-import express from "express";
-import fs from "fs";
-import path from "path";
+import { Buffer } from "buffer"
+import express from "express"
+import fs from "fs"
+import path from "path"
 
-const app = express();
-const PORT = process.env.PORT;
+const app = express()
+const PORT = process.env.PORT || 3000
 
-const randomImageDir = path.join("/", "usr", "src", "app", "files");
+const randomImageDir = path.join("/", "usr", "src", "app", "files")
 const randomImagePath = path.join(
   "/",
   "usr",
@@ -14,33 +14,50 @@ const randomImagePath = path.join(
   "app",
   "files",
   "random_image.jpg"
-);
-console.log(fs.existsSync(randomImageDir));
+)
+console.log(fs.existsSync(randomImageDir))
 
-app.use("/images", express.static(randomImageDir));
-app.use(express.urlencoded());
+app.use("/images", express.static(randomImageDir))
+app.use(express.json())
+
+const createNewTodo = async (newTodo) => {
+  const response = await fetch("http://todo-backend-svc:5678/todos", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(newTodo),
+  })
+}
 
 const downloadRandomImage = async () => {
   try {
-    const response = await fetch("https://picsum.photos/1200");
-    const arrayBuffer = await response.arrayBuffer();
-    const buffer = Buffer.from(arrayBuffer);
-    fs.writeFileSync(randomImagePath, buffer, (err) => console.log(err));
-    console.log("Downloaded new random image");
+    const response = await fetch("https://picsum.photos/1200")
+    const arrayBuffer = await response.arrayBuffer()
+    const buffer = Buffer.from(arrayBuffer)
+    fs.writeFileSync(randomImagePath, buffer, (err) => console.log(err))
+    console.log("Downloaded new random image")
   } catch (error) {
-    console.log(error);
+    throw error
   }
-  setTimeout(downloadRandomImage, 10 * 60000);
-};
+  setTimeout(downloadRandomImage, 10 * 60000)
+}
 
 app.post("/newtodo", (req, res) => {
-  console.log(req.body);
-  res.status(200).end();
-});
+  console.log(req.body)
+  createNewTodo(req.body)
+    .then(console.log("New todo saved"))
+    .catch((error) => console.log(error))
+    .finally(res.end())
+})
 
 app.get("/", async (req, res) => {
   if (!fs.existsSync(randomImagePath)) {
-    await downloadRandomImage();
+    try {
+      await downloadRandomImage()
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   res.send(`
@@ -53,7 +70,7 @@ app.get("/", async (req, res) => {
             <h1>The Project App</h1>
             <h2>DevOps with Kubernetes 2025</h2>
             <img src="/images/random_image.jpg">
-             <form action="/newtodo" method="post">
+            <form action="/newtodo" method="post">
                 <label for="new-todo-name">New todo:</label><br>
                 <input type="text" id="new-todo-name" name="new-todo-name" maxlength="140"><br>
                 <input type="submit" id="submit-todo-button" value="Submit">
@@ -64,11 +81,14 @@ app.get("/", async (req, res) => {
                 <li>Come back tomorrow</li>
         </body>
         </html>
-    `);
-});
-
-downloadRandomImage();
+    `)
+})
+try {
+  await downloadRandomImage()
+} catch (error) {
+  console.log(error)
+}
 
 app.listen(PORT, () => {
-  console.log(`Server started in port ${PORT}`);
-});
+  console.log(`Server started in port ${PORT}`)
+})
