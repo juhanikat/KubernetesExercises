@@ -18,7 +18,21 @@ const randomImagePath = path.join(
 console.log(fs.existsSync(randomImageDir))
 
 app.use("/images", express.static(randomImageDir))
-app.use(express.json())
+app.use(express.urlencoded())
+
+const fetchTodos = async () => {
+  const response = await fetch("http://todo-backend-svc:5678/todos", {
+    method: "GET",
+  })
+  const todos = Object.values(await response.json())
+  console.log(todos)
+  const liElements = []
+  for (const todo of todos) {
+    liElements.push(`<li>${todo}</li>`)
+  }
+  console.log(liElements)
+  return liElements.join("")
+}
 
 const createNewTodo = async (newTodo) => {
   const response = await fetch("http://todo-backend-svc:5678/todos", {
@@ -44,11 +58,13 @@ const downloadRandomImage = async () => {
 }
 
 app.post("/newtodo", (req, res) => {
-  console.log(req.body)
   createNewTodo(req.body)
     .then(console.log("New todo saved"))
     .catch((error) => console.log(error))
-    .finally(res.end())
+    .finally(() => {
+      fetchTodos()
+      res.redirect("/")
+    })
 })
 
 app.get("/", async (req, res) => {
@@ -76,15 +92,14 @@ app.get("/", async (req, res) => {
                 <input type="submit" id="submit-todo-button" value="Submit">
             </form> 
             <ul>
-                <li>Try to learn Kubernetes</li>
-                <li>Get mad</li>
-                <li>Come back tomorrow</li>
+                ${await fetchTodos()}
         </body>
         </html>
     `)
 })
 try {
   await downloadRandomImage()
+  await fetchTodos()
 } catch (error) {
   console.log(error)
 }
