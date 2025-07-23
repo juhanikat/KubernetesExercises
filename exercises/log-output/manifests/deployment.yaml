@@ -18,28 +18,35 @@ spec:
       volumes: # Define volume
       - name: shared-random-string
         emptyDir: {}
+      - name: config-volume
+        configMap:
+          name: log-output-configmap
       #volumes:
       #- name: shared-pingpong-amount
       #  persistentVolumeClaim:
       #    claimName: ping-pong-amount-pvclaim
       containers:
       - name: string-generator
-        image: juhanikat/log-output-string-generator:t
+        image: juhanikat/log-output-string-generator:u
         volumeMounts:
         - name: shared-random-string
           mountPath: /usr/src/app/files
-        #- name: shared-pingpong-amount
-        #  mountPath: /usr/src/app/files
+        - name: config-volume
+          mountPath: "/usr/src/app/config"
+          readOnly: true
         env:
         - name: PORT
           value: "3000"
+        - name: MESSAGE
+          valueFrom:
+            configMapKeyRef:
+              name: log-output-configmap
+              key: MESSAGE
       - name: string-responder
         image: juhanikat/log-output-string-responder:e
         volumeMounts:
         - name: shared-random-string
           mountPath: /usr/src/app/files
-        #- name: shared-pingpong-amount
-        #  mountPath: /usr/src/app/files
         env:
         - name: PORT
           value: "3001"

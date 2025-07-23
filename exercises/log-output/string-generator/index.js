@@ -4,6 +4,7 @@ import path from "path"
 
 const app = express()
 const PORT = process.env.PORT
+const MESSAGE = process.env.MESSAGE
 
 const pingpongAmountPath = path.join(
   "/",
@@ -14,7 +15,6 @@ const pingpongAmountPath = path.join(
   "pingpongpamount.txt"
 )
 
-const randomStringDir = path.join("/", "usr", "src", "app", "files")
 const randomStringPath = path.join(
   "/",
   "usr",
@@ -23,10 +23,26 @@ const randomStringPath = path.join(
   "files",
   "randomstring.txt"
 )
+const informationFilePath = path.join(
+  "/",
+  "usr",
+  "src",
+  "app",
+  "config",
+  "information.txt"
+)
 
 let randomString = ""
 for (let i = 0; i < 10; i++) {
   randomString = randomString + Math.floor(Math.random() * 10)
+}
+
+const readInformationFile = () => {
+  if (!fs.existsSync(informationFilePath)) {
+    return "information.txt not found! ConfigMap volume might not be mounted."
+  }
+  const text = fs.readFileSync(informationFilePath, { encoding: "utf-8" })
+  return text
 }
 
 const getString = async () => {
@@ -39,7 +55,11 @@ const getString = async () => {
     console.log(error)
     pingpongAmount = "???"
   }
-  return `${new Date()}:${randomString}\nPing / Pongs: ${pingpongAmount}`
+  return `
+  file content: ${readInformationFile()}
+  env variable: MESSAGE=${MESSAGE}
+  ${new Date()}:${randomString}
+  Ping / Pongs: ${pingpongAmount}`
 }
 
 const writeString = async () => {

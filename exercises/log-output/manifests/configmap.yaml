@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  namespace: exercises
+  name: log-output-configmap
+data:
+  MESSAGE: "ConfigMap works :)"
+  information.txt: |
+    Ainesosat: vesi (Suomi), hiilidioksidi, natriumkarbonaatti
