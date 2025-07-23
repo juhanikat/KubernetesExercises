@@ -1,41 +1,49 @@
 import express from "express"
-import fs from "fs"
-import path from "path"
+import pg from "pg"
+
+const { Pool, Client } = pg
+
+const pool = new Pool({
+  user: "postgres-user",
+  password: "postgres-password",
+  host: "postgres-svc",
+  port: undefined,
+  database: "postgres",
+})
+
+const client = await pool.connect()
+
+const tableExists = await client.query(
+  "SELECT EXISTS ( SELECT 1 FROM information_schema.tables WHERE table_name = 'pingpong') AS table_existence;"
+)
+if (!Boolean(tableExists.rows[0]["table_existence"])) {
+  console.log("Table pingpong not found, creating it.")
+  await client.query("CREATE TABLE pingpong (id INT, amount INT);")
+  await client.query("INSERT INTO pingpong (id, amount) VALUES ('1', '0');")
+}
+
+let pings
+pings = Number(
+  (await client.query("SELECT amount FROM pingpong WHERE id = '1';")).rows[0][
+    "amount"
+  ]
+)
+
+client.release()
 
 const app = express()
 const PORT = process.env.PORT
 
-const amountFileDir = path.join("/", "usr", "src", "app", "files")
-
-const amountFilePath = path.join(
-  "/",
-  "usr",
-  "src",
-  "app",
-  "files",
-  "pingpongpamount.txt"
-)
-
-let pings
-if (!fs.existsSync(amountFileDir) || !fs.existsSync(amountFilePath)) {
-  pings = 0
-} else {
-  pings = Number(fs.readFileSync(amountFilePath, "utf8"))
-}
-
 app.get("/pingpong", async (req, res) => {
+  console.log(pings)
   pings = pings + 1
   const message = `pong ${pings}`
-  if (fs.existsSync(amountFileDir) && fs.existsSync(amountFilePath)) {
-    fs.writeFileSync(amountFilePath, String(counter), (err) => {
-      if (err) console.log(err)
-    })
-  }
+  console.log(pings)
+  await pool.query(`UPDATE pingpong SET amount = '${pings}' WHERE id = '1';`)
   res.send(message)
 })
 
 app.get("/pings", (req, res) => {
-  console.log(pings)
   res.json({ pings: pings })
 })
 

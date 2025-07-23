@@ -21,3 +21,4 @@
 - [2.4](https://github.com/juhanikat/KubernetesExercises/tree/2.4/todo-project)
 - [2.5](https://github.com/juhanikat/KubernetesExercises/tree/2.5/exercises)
 - [2.6](https://github.com/juhanikat/KubernetesExercises/tree/2.6/todo-project)
+- [2.7](https://github.com/juhanikat/KubernetesExercises/tree/2.7/exercises)
