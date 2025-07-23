@@ -17,3 +17,4 @@
 - [1.13](https://github.com/juhanikat/KubernetesExercises/tree/1.13/chapter2/todo-app)
 - [2.1](https://github.com/juhanikat/KubernetesExercises/tree/2.1/ping-pong-app)
 - [2.2](https://github.com/juhanikat/KubernetesExercises/tree/2.2/todo-exercises)
+- [2.3](https://github.com/juhanikat/KubernetesExercises/tree/2.3/)
