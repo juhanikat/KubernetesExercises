@@ -15,9 +15,37 @@ spec:
     spec:
       securityContext:
         runAsUser: 0 # set to use root permissions to be able to write files
+      volumes:
+      - name: config-volume
+        configMap:
+          name: todo-backend-configmap
       containers:
       - name: todo-backend
-        image: juhanikat/todo-backend:h
+        image: juhanikat/todo-backend:q
+        volumeMounts:
+        - name: config-volume
+          mountPath: "/usr/src/app/config"
+          readOnly: true
         env:
         - name: PORT
           value: "3001"
+        - name: POSTGRES_USER
+          valueFrom:
+            configMapKeyRef:
+              name: todo-backend-configmap
+              key: POSTGRES_USER
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            configMapKeyRef:
+              name: todo-backend-configmap
+              key: POSTGRES_PASSWORD
+        - name: POSTGRES_HOST
+          valueFrom:
+            configMapKeyRef:
+              name: todo-backend-configmap
+              key: POSTGRES_HOST
+        - name: POSTGRES_DATABASE
+          valueFrom:
+            configMapKeyRef:
+              name: todo-backend-configmap
+              key: POSTGRES_DATABASE

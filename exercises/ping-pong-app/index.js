@@ -1,7 +1,7 @@
 import express from "express"
 import pg from "pg"
 
-const { Pool, Client } = pg
+const { Pool } = pg
 
 const pool = new Pool({
   user: "postgres-user",
