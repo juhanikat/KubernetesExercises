@@ -21,12 +21,20 @@ spec:
           claimName: random-image-pvclaim
       containers:
       - name: todo-app
-        image: juhanikat/todo-app:aj
+        image: juhanikat/todo-app:ak
         volumeMounts:
         - name: random-image
           mountPath: /usr/src/app/files
         env:
         - name: PORT
           value: "3000"
+        - name: RANDOM_IMAGE_MOUNTPATH
+          value: "/usr/src/app/files"
+        - name: RANDOM_IMAGE_FILENAME
+          value: "random_image.jpg"
+        - name: PICSUM_URL
+          value: "https://picsum.photos/1200"
+        - name: TODO_BACKEND_URL
+          value: "http://todo-backend-svc:5678/todos"
 
 

@@ -77,5 +77,10 @@
     "unpipe": "^1.0.0",
     "vary": "^1.1.2",
     "wrappy": "^1.0.2"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.31.0",
+    "eslint": "^9.31.0",
+    "globals": "^16.3.0"
   }
 }

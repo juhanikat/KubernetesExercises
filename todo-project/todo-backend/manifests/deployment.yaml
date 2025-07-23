@@ -17,9 +17,7 @@ spec:
         runAsUser: 0 # set to use root permissions to be able to write files
       containers:
       - name: todo-backend
-        image: juhanikat/todo-backend:g
+        image: juhanikat/todo-backend:h
         env:
         - name: PORT
           value: "3001"
-
-

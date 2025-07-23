@@ -3,21 +3,16 @@ import express from "express"
 import fs from "fs"
 import path from "path"
 
+const PORT = process.env.PORT
+const RANDOM_IMAGE_MOUNTPATH = process.env.RANDOM_IMAGE_MOUNTPATH
+const RANDOM_IMAGE_FILENAME = process.env.RANDOM_IMAGE_FILENAME
+const PICSUM_URL = process.env.PICSUM_URL
+const TODO_BACKEND_URL = process.env.TODO_BACKEND_URL
+
+const randomImagePath = path.join(RANDOM_IMAGE_MOUNTPATH, RANDOM_IMAGE_FILENAME)
+
 const app = express()
-const PORT = process.env.PORT || 3000
-
-const randomImageDir = path.join("/", "usr", "src", "app", "files")
-const randomImagePath = path.join(
-  "/",
-  "usr",
-  "src",
-  "app",
-  "files",
-  "random_image.jpg"
-)
-console.log(fs.existsSync(randomImageDir))
-
-app.use("/images", express.static(randomImageDir))
+app.use("/images", express.static(RANDOM_IMAGE_MOUNTPATH))
 app.use(express.urlencoded())
 
 const fetchTodos = async () => {
@@ -25,17 +20,15 @@ const fetchTodos = async () => {
     method: "GET",
   })
   const todos = Object.values(await response.json())
-  console.log(todos)
   const liElements = []
   for (const todo of todos) {
     liElements.push(`<li>${todo}</li>`)
   }
-  console.log(liElements)
   return liElements.join("")
 }
 
 const createNewTodo = async (newTodo) => {
-  const response = await fetch("http://todo-backend-svc:5678/todos", {
+  await fetch(TODO_BACKEND_URL, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -45,8 +38,9 @@ const createNewTodo = async (newTodo) => {
 }
 
 const downloadRandomImage = async () => {
+  // eslint-disable-next-line no-useless-catch
   try {
-    const response = await fetch("https://picsum.photos/1200")
+    const response = await fetch(PICSUM_URL)
     const arrayBuffer = await response.arrayBuffer()
     const buffer = Buffer.from(arrayBuffer)
     fs.writeFileSync(randomImagePath, buffer, (err) => console.log(err))
@@ -62,7 +56,6 @@ app.post("/newtodo", (req, res) => {
     .then(console.log("New todo saved"))
     .catch((error) => console.log(error))
     .finally(() => {
-      fetchTodos()
       res.redirect("/")
     })
 })
@@ -98,7 +91,6 @@ app.get("/", async (req, res) => {
     `)
 })
 try {
-  await downloadRandomImage()
   await fetchTodos()
 } catch (error) {
   console.log(error)
