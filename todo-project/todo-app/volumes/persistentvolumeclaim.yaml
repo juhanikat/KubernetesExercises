@@ -1,6 +1,7 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
+  namespace: project
   name: random-image-pvclaim
 spec:
   storageClassName: random-image-pv
