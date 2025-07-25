@@ -37,16 +37,19 @@ app.post("/todos", async (req, res) => {
       .status(400)
       .send("No request body found, check that your request is JSON data!")
   }
-  console.log("NEW todo:")
-  console.log(req.body)
-  if (req.body["new-todo-name"]) {
-    todos.push(req.body["new-todo-name"])
-    await pool.query(
-      `INSERT INTO todos (todo) VALUES ('${req.body["new-todo-name"]}');`
-    )
+  const newTodoName = req.body["new-todo-name"]
+  if (newTodoName) {
+    console.log(`New todo: ${newTodoName}`)
+    if (newTodoName.length > 140) {
+      console.log("Todo is too long! Max 140 characters.")
+      res.status(400).send("Todo is too long! Max 140 characters.")
+    }
+
+    todos.push(newTodoName)
+    await pool.query(`INSERT INTO todos (todo) VALUES ('${newTodoName}');`)
     console.log("New todo saved in backend")
     res.status(200).end()
-  } else { 
+  } else {
     console.log("no new-todo-name in request body!")
     res.status(400).end()
   }

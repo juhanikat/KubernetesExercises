@@ -21,7 +21,7 @@ spec:
           name: todo-backend-configmap
       containers:
       - name: todo-backend
-        image: juhanikat/todo-backend:r
+        image: juhanikat/todo-backend:s
         volumeMounts:
         - name: config-volume
           mountPath: "/usr/src/app/config"
