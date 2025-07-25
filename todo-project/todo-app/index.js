@@ -16,7 +16,7 @@ app.use("/images", express.static(RANDOM_IMAGE_MOUNTPATH))
 app.use(express.urlencoded())
 
 const fetchTodos = async () => {
-  const response = await fetch("http://todo-backend-svc:5678/todos", {
+  const response = await fetch(TODO_BACKEND_URL, {
     method: "GET",
   })
   const todos = Object.values(await response.json())

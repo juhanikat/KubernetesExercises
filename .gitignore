@@ -2,3 +2,4 @@ node_modules/
 .git
 .env
 ubuntu-testpod.yaml
+post-todo-image
