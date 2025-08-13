@@ -25,4 +25,4 @@
 - [2.8](https://github.com/juhanikat/KubernetesExercises/tree/2.8/todo-project)
 - [2.9](https://github.com/juhanikat/KubernetesExercises/tree/2.9/todo-project)
 - [2.10](https://github.com/juhanikat/KubernetesExercises/tree/2.10/todo-project)
-- [3.1](https://github.com/juhanikat/KubernetesExercises/tree/3.1/ping-pong-app)
+- [3.1](https://github.com/juhanikat/KubernetesExercises/tree/3.1/exercises/ping-pong-app)
