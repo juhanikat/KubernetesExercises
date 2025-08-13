@@ -32,11 +32,11 @@ spec:
     - metadata:
         name: postgres-data-storage
       spec:
-        accessModes: ["ReadWriteOnce"]
-        storageClassName: local-path
+        accessModes: [ "ReadWriteOnce" ]
         resources:
           requests:
             storage: 100Mi
+
 
 ---
 apiVersion: v1
