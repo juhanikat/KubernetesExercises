@@ -25,4 +25,8 @@ app.get("/status", (req, res) => {
   res.send(getFile())
 })
 
+app.get("/", (req, res) => {
+  res.send("'/' works!")
+})
+
 app.listen(PORT)

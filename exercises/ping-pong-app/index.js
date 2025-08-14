@@ -47,6 +47,10 @@ app.get("/pings", (req, res) => {
   res.json({ pings: pings })
 })
 
+app.get("/", (req, res) => {
+  res.send("'/' works!")
+})
+
 app.listen(PORT, () => {
   console.log(`Server started in port ${PORT}`)
 })

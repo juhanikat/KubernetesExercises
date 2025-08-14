@@ -27,7 +27,7 @@ spec:
       #    claimName: ping-pong-amount-pvclaim
       containers:
       - name: string-generator
-        image: juhanikat/log-output-string-generator:u
+        image: juhanikat/log-output-string-generator:v
         volumeMounts:
         - name: shared-random-string
           mountPath: /usr/src/app/files
@@ -43,7 +43,7 @@ spec:
               name: log-output-configmap
               key: MESSAGE
       - name: string-responder
-        image: juhanikat/log-output-string-responder:e
+        image: juhanikat/log-output-string-responder:f
         volumeMounts:
         - name: shared-random-string
           mountPath: /usr/src/app/files

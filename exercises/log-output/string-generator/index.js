@@ -48,7 +48,7 @@ const readInformationFile = () => {
 const getString = async () => {
   let pingpongAmount = undefined
   try {
-    const response = await fetch("http://ping-pong-app-svc:3456/pings")
+    const response = await fetch("http://ping-pong-app-svc/pings")
     const json = await response.json()
     pingpongAmount = Number(json.pings)
   } catch (error) {

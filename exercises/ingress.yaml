@@ -2,7 +2,7 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   namespace: exercises
-  name: log-output-ingress
+  name: exercises-ingress
 spec:
   rules:
   - http:
@@ -13,4 +13,11 @@ spec:
           service:
             name: log-output-svc
             port:
-              number: 2345
+              number: 80
+      - path: /pingpong
+        pathType: Prefix
+        backend:
+          service:
+            name: ping-pong-app-svc
+            port:
+              number: 80
