@@ -34,21 +34,15 @@ client.release()
 const app = express()
 const PORT = process.env.PORT
 
-app.get("/pingpong", async (req, res) => {
-  console.log(pings)
+app.get("/", async (req, res) => {
   pings = pings + 1
   const message = `pong ${pings}`
-  console.log(pings)
   await pool.query(`UPDATE pingpong SET amount = '${pings}' WHERE id = '1';`)
   res.send(message)
 })
 
 app.get("/pings", (req, res) => {
   res.json({ pings: pings })
-})
-
-app.get("/", (req, res) => {
-  res.send("'/' works!")
 })
 
 app.listen(PORT, () => {
