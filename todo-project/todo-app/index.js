@@ -56,11 +56,11 @@ app.post("/newtodo", (req, res) => {
     .then(console.log("New todo saved"))
     .catch((error) => console.log(error))
     .finally(() => {
-      res.redirect("/")
+      res.redirect("/home")
     })
 })
 
-app.get("/", async (req, res) => {
+app.get("/home", async (req, res) => {
   if (!fs.existsSync(randomImagePath)) {
     try {
       await downloadRandomImage()
@@ -90,6 +90,11 @@ app.get("/", async (req, res) => {
         </html>
     `)
 })
+
+app.get("/", (req, res) => {
+  res.send("'/' works!")
+})
+
 try {
   await fetchTodos()
 } catch (error) {

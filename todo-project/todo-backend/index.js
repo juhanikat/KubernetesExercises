@@ -59,6 +59,10 @@ app.get("/todos", async (req, res) => {
   res.send(todos)
 })
 
+app.get("/", async (req, res) => {
+  res.send("'/' works!")
+})
+
 app.listen(PORT, () => {
   console.log(`Server started in port ${PORT}`)
 })

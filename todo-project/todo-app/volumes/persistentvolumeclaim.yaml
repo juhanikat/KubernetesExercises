@@ -4,7 +4,6 @@ metadata:
   namespace: project
   name: random-image-pvclaim
 spec:
-  storageClassName: random-image-pv
   accessModes:
     - ReadWriteOnce
   resources:
