@@ -12,7 +12,7 @@ env:
   BACKEND_REPOSITORY: todo-backend-repository
   FRONTEND_IMAGE: todo-app
   BACKEND_IMAGE: todo-backend
-  SERVICE: dwk-environments
+  SERVICE: project
   BRANCH: ${{ github.ref_name }}
 
 jobs:
