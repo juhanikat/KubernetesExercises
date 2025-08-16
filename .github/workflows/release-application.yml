@@ -46,10 +46,10 @@ jobs:
           location: '${{ env.GKE_ZONE }}'
           
       - name : 'Form frontend image name'
-        run: echo "FRONTEND_IMAGE_TAG=$REGISTRY/$PROJECT_ID/$REPOSITORY/$FRONTEND_IMAGE:$BRANCH-$GITHUB_SHA" >> $GITHUB_ENV
+        run: echo "FRONTEND_IMAGE_TAG=$REGISTRY/$PROJECT_ID/$FRONTEND_REPOSITORY/$FRONTEND_IMAGE:$BRANCH-$GITHUB_SHA" >> $GITHUB_ENV
 
       - name : 'Form backend image name'
-        run: echo "BACKEND_IMAGE_TAG=$REGISTRY/$PROJECT_ID/$REPOSITORY/$BACKEND_IMAGE:$BRANCH-$GITHUB_SHA" >> $GITHUB_ENV
+        run: echo "BACKEND_IMAGE_TAG=$REGISTRY/$PROJECT_ID/$BACKEND_REPOSITORY/$BACKEND_IMAGE:$BRANCH-$GITHUB_SHA" >> $GITHUB_ENV
 
 
       - name: 'Build frontend'
