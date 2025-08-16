@@ -72,6 +72,7 @@ jobs:
       - name: Deploy
         working-directory: ./todo-project
         run: |-
+          kubectl create namespace project
           kustomize edit set image TODO-PROJECT/FRONTEND-IMAGE=$FRONTEND_IMAGE_TAG
           kustomize edit set image TODO-PROJECT/BACKEND-IMAGE=$BACKEND_IMAGE_TAG
           kustomize build . | kubectl apply -f -
