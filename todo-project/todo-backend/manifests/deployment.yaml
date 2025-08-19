@@ -19,7 +19,6 @@ spec:
       - name: config-volume
         configMap:
           name: todo-backend-configmap
-      priorityClassName: high-priority-nonpreempting
       containers:
       - name: todo-backend
         image: TODO-PROJECT/BACKEND-IMAGE

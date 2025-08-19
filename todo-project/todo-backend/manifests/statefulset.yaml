@@ -14,7 +14,6 @@ spec:
       labels:
         app: postgres-app
     spec:
-      priorityClassName: high-priority-nonpreempting
       containers:
         - name: postgres
           image: postgres:14.18
@@ -34,6 +33,7 @@ spec:
         name: postgres-data-storage
       spec:
         accessModes: ["ReadWriteMany"]
+        storageClassName: local-path
         resources:
           requests:
             storage: 100Mi

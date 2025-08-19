@@ -19,7 +19,6 @@ spec:
       - name: random-image
         persistentVolumeClaim:
           claimName: random-image-pvclaim
-      priorityClassName: high-priority-nonpreempting
       containers:
       - name: todo-app
         image: TODO-PROJECT/FRONTEND-IMAGE
