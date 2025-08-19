@@ -46,6 +46,7 @@ metadata:
   labels:
     app: postgres-app
 spec:
+  priorityClassName: high-priority-nonpreempting
   ports:
   - port: 6379
     name: web

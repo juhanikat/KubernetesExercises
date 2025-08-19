@@ -5,6 +5,7 @@ metadata:
   name: todo-app-dep
 spec:
   replicas: 1
+  priorityClassName: high-priority-nonpreempting
   selector:
     matchLabels:
       app: todo-app
@@ -21,7 +22,7 @@ spec:
           claimName: random-image-pvclaim
       containers:
       - name: todo-app
-        image: juhanikat/todo-app:an
+        image: TODO-PROJECT/FRONTEND-IMAGE
         volumeMounts:
         - name: random-image
           mountPath: /usr/src/app/files

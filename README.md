@@ -30,3 +30,4 @@
 - [3.3](https://github.com/juhanikat/KubernetesExercises/tree/3.3/exercises)
 - [3.4](https://github.com/juhanikat/KubernetesExercises/tree/3.4/exercises)
 - [3.5](https://github.com/juhanikat/KubernetesExercises/tree/3.5/todo-project)
+- [3.6](https://github.com/juhanikat/KubernetesExercises/tree/3.6/todo-project)
