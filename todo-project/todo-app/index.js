@@ -14,6 +14,7 @@ const randomImagePath = path.join(RANDOM_IMAGE_MOUNTPATH, RANDOM_IMAGE_FILENAME)
 const app = express()
 app.use("/images", express.static(RANDOM_IMAGE_MOUNTPATH))
 app.use(express.urlencoded())
+console.log(randomImagePath)
 
 const fetchTodos = async () => {
   const response = await fetch(TODO_BACKEND_URL, {
@@ -78,7 +79,7 @@ app.get("/home", async (req, res) => {
         <body>
             <h1>The Project App</h1>
             <h2>DevOps with Kubernetes 2025</h2>
-            <img src="/images/random_image.jpg">
+            <img src="/images/${RANDOM_IMAGE_FILENAME}">
             <form action="/newtodo" method="post">
                 <label for="new-todo-name">New todo:</label><br>
                 <input type="text" id="new-todo-name" name="new-todo-name" maxlength="140"><br>
