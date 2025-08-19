@@ -68,13 +68,17 @@ jobs:
       - name: Set up Kustomize
         uses: imranismail/setup-kustomize@v2.1.0
 
-      - name: Create project namespace if it doesn't exist
+      - name: Create and set namespace
         run: |
-          kubectl get namespaces >> namespaces.txt
-          if ! grep -q "project" namespaces.txt; then
-            kubectl create namespace project
+          if [ "${GITHUB_REF#refs/heads/}" == "main" ]; then
+            kubectl create namespace project || true
+            kubectl config set-context --current --namespace=project
+            kustomize edit set namespace project
+          else
+            kubectl create namespace ${GITHUB_REF#refs/heads/} || true
+            kubectl config set-context --current --namespace=${GITHUB_REF#refs/heads/}
+            kustomize edit set namespace ${GITHUB_REF#refs/heads/}
           fi
-      
 
       - name: Deploy
         working-directory: ./todo-project
