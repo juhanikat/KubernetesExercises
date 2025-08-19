@@ -69,9 +69,12 @@ jobs:
       - name: Set up Kustomize
         uses: imranismail/setup-kustomize@v2.1.0
 
-      - name: Create project namespace (conditionally)
-        if: ${{ ! kubectl get namespaces | grep project }}
-        run: kubectl create namespace project
+      - name: grep thing
+        run: |
+          kubectl get namespaces >> namespaces.txt
+          if ! grep -q "project" namespaces.txt; then
+            kubectl create namespace project
+          fi
       
 
       - name: Deploy
