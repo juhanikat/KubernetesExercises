@@ -8,15 +8,17 @@ env:
   GKE_CLUSTER: dwk-cluster
   GKE_ZONE: europe-north1-b
   REGISTRY: europe-north1-docker.pkg.dev
-  REPOSITORY: my-repository
-  IMAGE: dwk-environments
-  SERVICE: dwk-environments
+  FRONTEND_REPOSITORY: my-repository
+  BACKEND_REPOSITORY: todo-backend-repository
+  FRONTEND_IMAGE: todo-app
+  BACKEND_IMAGE: todo-backend
   BRANCH: ${{ github.ref_name }}
 
 jobs:
   build-publish-deploy:
     name: Build, Publish and Deploy
     runs-on: ubuntu-latest
+    environment: main-env
 
     steps:
       - name: Checkout
@@ -33,7 +35,7 @@ jobs:
       - name: 'Use gcloud CLI'
         run: gcloud info
         
-      - run: gcloud --quiet auth configure-docker
+      - run: gcloud --quiet auth configure-docker europe-north1-docker.pkg.dev
 
       - name: 'Get GKE credentials'
         uses: 'google-github-actions/get-gke-credentials@v2'
@@ -42,21 +44,43 @@ jobs:
           project_id: '${{ env.PROJECT_ID }}'
           location: '${{ env.GKE_ZONE }}'
           
-      - name : 'Form the image name'
-        run: echo "IMAGE_TAG=$REGISTRY/$PROJECT_ID/$REPOSITORY/$IMAGE:$BRANCH-$GITHUB_SHA" >> $GITHUB_ENV
+      - name : 'Form frontend image name'
+        run: echo "FRONTEND_IMAGE_TAG=$REGISTRY/$PROJECT_ID/$FRONTEND_REPOSITORY/$FRONTEND_IMAGE:$BRANCH-$GITHUB_SHA" >> $GITHUB_ENV
 
-      - name: 'Build'
-        run: docker build --tag $IMAGE_TAG .
+      - name : 'Form backend image name'
+        run: echo "BACKEND_IMAGE_TAG=$REGISTRY/$PROJECT_ID/$BACKEND_REPOSITORY/$BACKEND_IMAGE:$BRANCH-$GITHUB_SHA" >> $GITHUB_ENV
 
-      - name: 'Publish'
-        run: docker push $IMAGE_TAG
+
+      - name: 'Build frontend'
+        working-directory: ./todo-project/todo-app
+        run: docker build --tag $FRONTEND_IMAGE_TAG .
+
+      - name: 'Publish frontend'
+        run: docker push $FRONTEND_IMAGE_TAG
+
+      - name: 'Build backend'
+        working-directory: ./todo-project/todo-backend
+        run: docker build --tag $BACKEND_IMAGE_TAG .
+
+      - name: 'Publish backend'
+        run: docker push $BACKEND_IMAGE_TAG
 
       - name: Set up Kustomize
         uses: imranismail/setup-kustomize@v2.1.0
 
+      - name: Create project namespace if it doesn't exist
+        run: |
+          kubectl get namespaces >> namespaces.txt
+          if ! grep -q "project" namespaces.txt; then
+            kubectl create namespace project
+          fi
+      
+
       - name: Deploy
+        working-directory: ./todo-project
         run: |-
-          kustomize edit set image PROJECT/IMAGE=$IMAGE_TAG
+          kustomize edit set image TODO-PROJECT/FRONTEND-IMAGE=$FRONTEND_IMAGE_TAG
+          kustomize edit set image TODO-PROJECT/BACKEND-IMAGE=$BACKEND_IMAGE_TAG
           kustomize build . | kubectl apply -f -
-          kubectl rollout status deployment $SERVICE
+          kubectl rollout status deployment -n project
           kubectl get services -o wide
