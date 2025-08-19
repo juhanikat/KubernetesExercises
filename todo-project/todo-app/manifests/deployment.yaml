@@ -5,7 +5,6 @@ metadata:
   name: todo-app-dep
 spec:
   replicas: 1
-  priorityClassName: high-priority-nonpreempting
   selector:
     matchLabels:
       app: todo-app
@@ -20,6 +19,7 @@ spec:
       - name: random-image
         persistentVolumeClaim:
           claimName: random-image-pvclaim
+      priorityClassName: high-priority-nonpreempting
       containers:
       - name: todo-app
         image: TODO-PROJECT/FRONTEND-IMAGE

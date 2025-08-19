@@ -14,6 +14,7 @@ spec:
       labels:
         app: postgres-app
     spec:
+      priorityClassName: high-priority-nonpreempting
       containers:
         - name: postgres
           image: postgres:14.18
@@ -46,7 +47,6 @@ metadata:
   labels:
     app: postgres-app
 spec:
-  priorityClassName: high-priority-nonpreempting
   ports:
   - port: 6379
     name: web
