@@ -7,8 +7,7 @@ spec:
   capacity:
     storage: 1Gi
   volumeMode: Filesystem
-  accessModes:
-    - ReadWriteMany
+  accessModes: ["ReadWriteOnce"]
   local:
     path: /tmp/kube
   nodeAffinity:
