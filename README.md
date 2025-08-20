@@ -30,6 +30,7 @@
 - [3.5](https://github.com/juhanikat/KubernetesExercises/tree/3.5/todo-project)
 - [3.6](https://github.com/juhanikat/KubernetesExercises/tree/3.6/todo-project)
 - [3.7](https://github.com/juhanikat/KubernetesExercises/tree/3.7/todo-project)
+- [3.8](https://github.com/juhanikat/KubernetesExercises/tree/3.8)
 
 
 ## Database as a service VS DIY (exercise 3.9)
