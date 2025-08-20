@@ -1,6 +1,7 @@
 node_modules/
+.github
 .git
 .env
-.github
 ubuntu-testpod.yaml
 post-todo-image
+backup-database-image

@@ -10,20 +10,21 @@ spec:
         spec:
           containers:
           - name: daily-backup-cronjob
-            image: debian:bookworm-slim
+            image: juhanikat/backup-database:c
             imagePullPolicy: IfNotPresent
             command: 
             - /bin/sh
             - -c
             args: 
               - |
-                echo "Update starts"
                 apt-get update
-                echo "Update done"
-                curl -O https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-cli-linux-x86_64.tar.gz
-                tar -xf google-cloud-cli-linux-x86_64.tar.gz
-                ./google-cloud-sdk/install.sh --quiet
-                ./google-cloud-sdk/bin/gcloud init
+                apt-get install -y curl
+                apt-get install -y python
+                curl https://sdk.cloud.google.com > install.sh
+                chmod 777 ./install.sh
+                ./install.sh --disable-prompts
+                gcloud auth activate-service-account --key-file=./service-account-key.json
+                gcloud config set project dwk-gke-468909
                 apt-get install -y postgresql-client
                 export PGPASSWORD='$POSTGRES_PASSWORD'
                 pg_dump -U $POSTGRES_USER -h $POSTGRES_HOST $POSTGRES_DATABASE > todo-database-backup.sql
