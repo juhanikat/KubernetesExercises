@@ -1,7 +1,7 @@
 apiVersion: batch/v1
 kind: CronJob
 metadata:
-  name: hourly-todo-cronjob
+  name: daily-backup-cronjob
 spec:
   schedule: "0 * * * *"
   jobTemplate:
@@ -10,13 +10,24 @@ spec:
         spec:
           containers:
           - name: daily-backup-cronjob
-            image: busybox:1.28
+            image: debian:bookworm-slim
             imagePullPolicy: IfNotPresent
             command: 
             - /bin/sh
             - -c
-            - pg_dump -U $POSTGRES_USER -h $POSTGRES_HOST $POSTGRES_DATABASE > todo-database-backup.sql
-            - gcloud storage cp ./todo-database-backup.sql gs://todo-database-backup-bucket
+            args: 
+              - |
+                echo "Update starts"
+                apt-get update
+                echo "Update done"
+                curl -O https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-cli-linux-x86_64.tar.gz
+                tar -xf google-cloud-cli-linux-x86_64.tar.gz
+                ./google-cloud-sdk/install.sh --quiet
+                ./google-cloud-sdk/bin/gcloud init
+                apt-get install -y postgresql-client
+                export PGPASSWORD='$POSTGRES_PASSWORD'
+                pg_dump -U $POSTGRES_USER -h $POSTGRES_HOST $POSTGRES_DATABASE > todo-database-backup.sql
+                gcloud storage cp ./todo-database-backup.sql gs://todo-database-backup-bucket
             envFrom:
             - configMapRef:
                 name: todo-backend-configmap
