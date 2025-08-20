@@ -1,0 +1,24 @@
+name: Delete matching Kubernetes namespace when branch is deleted
+
+on:
+  delete:
+    branches:
+      - '**'
+
+jobs:
+  delete-environment:
+      name: Delete matching Kubernetes namespace when branch is deleted
+      runs-on: ubuntu-latest
+      environment: main-env
+  
+      steps:
+        - name: Checkout
+          uses: actions/checkout@v4
+
+        - name: Delete namespace
+          run: |
+            if [ "${GITHUB_REF#refs/heads/}" == "main" ]; then
+              kubectl delete namespace project || true
+            else
+              kubectl delete namespace ${GITHUB_REF#refs/heads/} || true
+            fi
