@@ -5,6 +5,18 @@ on:
     branches:
       - '**'
 
+env:
+  PROJECT_ID: ${{ secrets.GKE_PROJECT }}
+  GKE_CLUSTER: dwk-cluster
+  GKE_ZONE: europe-north1-b
+  REGISTRY: europe-north1-docker.pkg.dev
+  FRONTEND_REPOSITORY: my-repository
+  BACKEND_REPOSITORY: todo-backend-repository
+  FRONTEND_IMAGE: todo-app
+  BACKEND_IMAGE: todo-backend
+  BRANCH: ${{ github.ref_name }}
+
+  
 jobs:
   delete-environment:
       name: Delete matching Kubernetes namespace when branch is deleted
@@ -12,10 +24,28 @@ jobs:
       environment: main-env
   
       steps:
-        - name: Checkout
+        - name: 'Checkout'
           uses: actions/checkout@v4
 
-        - name: Delete namespace
+        - name: 'Authenticate'
+          uses: google-github-actions/auth@v2
+          with:
+            credentials_json: '${{ secrets.GKE_SA_KEY }}'
+
+        - name: 'Set up Cloud SDK'
+          uses: google-github-actions/setup-gcloud@v2
+  
+        - name: 'Use gcloud CLI'
+          run: gcloud info
+  
+        - name: 'Get GKE credentials'
+          uses: 'google-github-actions/get-gke-credentials@v2'
+          with:
+            cluster_name: '${{ env.GKE_CLUSTER }}'
+            project_id: '${{ env.PROJECT_ID }}'
+            location: '${{ env.GKE_ZONE }}'
+
+        - name: 'Delete namespace'
           run: |
             if [ "${GITHUB_REF#refs/heads/}" == "main" ]; then
               kubectl delete namespace project || true
