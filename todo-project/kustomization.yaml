@@ -12,6 +12,6 @@ resources:
   - todo-backend/manifests/statefulset.yaml
 images:
   - name: TODO-PROJECT/FRONTEND-IMAGE
-    newName: juhanikat/replaced-by-github-actions
+    newName: placeholder
   - name: TODO-PROJECT/BACKEND-IMAGE
-    newName: juhanikat/replaced-by-github-actions
+    newName: placeholder
