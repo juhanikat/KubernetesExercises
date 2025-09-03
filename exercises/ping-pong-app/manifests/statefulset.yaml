@@ -19,7 +19,7 @@ spec:
           image: postgres:14.18
           ports:
             - name: web
-              containerPort: 6379
+              containerPort: 80
           volumeMounts:
             - name: postgres-data-storage
               mountPath: /data
@@ -33,6 +33,7 @@ spec:
         name: postgres-data-storage
       spec:
         accessModes: [ "ReadWriteMany" ]
+        storageClassName: "local-path"
         resources:
           requests:
             storage: 100Mi
@@ -48,8 +49,8 @@ metadata:
     app: postgres-app
 spec:
   ports:
-  - port: 6379
+  - port: 80
     name: web
-  clusterIP: None
+  type: NodePort
   selector:
     app: postgres-app

@@ -50,6 +50,10 @@ app.get("/healthz", async (req, res) => {
   res.end()
 })
 
+app.get("/", async (req, res) => {
+  res.send("'/' works!")
+})
+
 app.listen(PORT, () => {
   console.log(`Server started in port ${PORT}`)
 })
