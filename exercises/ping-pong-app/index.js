@@ -45,6 +45,11 @@ app.get("/pings", (req, res) => {
   res.json({ pings: pings })
 })
 
+app.get("/healthz", async (req, res) => {
+  console.log(await pool.query("SELECT 1;"))
+  res.end()
+})
+
 app.listen(PORT, () => {
   console.log(`Server started in port ${PORT}`)
 })

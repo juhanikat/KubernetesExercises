@@ -1,0 +1,19 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ping-pong-app/manifests/deployment.yaml
+  - ping-pong-app/manifests/service.yaml
+  - ping-pong-app/manifests/stateful.yaml
+  - log-output/manifests/deployment.yaml
+  - log-output/manifests/service.yaml
+  - log-output/manifests/configmap.yaml
+  - routing/gateway.yaml
+  - routing/route.yaml
+images:
+  - name: EXERCISES/PING-PONG-APP-IMAGE
+    newName: juhanikat/ping-pong-app:ag
+  - name: EXERCISES/LOG-OUTPUT-STRING-GENERATOR-IMAGE
+    newName: juhanikat/log-output-string-generator:v
+  - name: EXERCISES/LOG-OUTPUT-STRING-RESPONDER-IMAGE
+    newName: juhanikat/log-output-string-responder:f
+namespace: "exercises"

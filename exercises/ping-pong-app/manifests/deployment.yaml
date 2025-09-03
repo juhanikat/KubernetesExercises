@@ -21,7 +21,7 @@ spec:
       #    claimName: ping-pong-amount-pvclaim
       containers:
       - name: ping-pong-app
-        image: juhanikat/ping-pong-app:ag
+        image: EXERCISES/PING-PONG-APP-IMAGE
         #volumeMounts:
         #  - name: shared-pingpong-amount
         #    mountPath: /usr/src/app/files
